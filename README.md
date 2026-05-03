@@ -1,4 +1,4 @@
-# ExhibitUm - 3D Virtual Exhibition Platform
+# Exhibitum - 3D Virtual Exhibition Platform
 
 **Дипломний проєкт за спеціальністю «Програмна інженерія»**
 **Тема:** Розробка веб-платформи для 3D-візуалізації виставкового середовища з використанням Firebase та Three.js.
