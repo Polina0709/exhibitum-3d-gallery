@@ -1,16 +1,81 @@
-# React + Vite
+# ExhibitUm - 3D Virtual Exhibition Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Дипломний проєкт за спеціальністю «Програмна інженерія»**
+**Тема:** Розробка веб-платформи для 3D-візуалізації виставкового середовища з використанням Firebase та Three.js.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Про проєкт
+**Exhibitum** — це інтерактивна веб-платформа, яка дозволяє користувачам відвідувати віртуальні художні виставки у форматі 3D прямо в браузері. Проєкт поєднує сучасні технології веб-рендерингу (WebGL) з безсерверною архітектурою (BaaS), забезпечуючи динамічне завантаження контенту, багатокористувацьку взаємодію в реальному часі та зручне адміністрування.
 
-## React Compiler
+## Основний функціонал
+* **Інтерактивне 3D-середовище:** Навігація від першої особи (WASD + миша для ПК) та підтримка сенсорного управління (віртуальний джойстик для мобільних пристроїв).
+* **Динамічна експозиція:** Картини та їх метадані не "зашиті" в код, а динамічно підвантажуються з бази даних на відповідні слоти (стіни) у 3D-залі.
+* **Рольова система (RBAC):** Розмежування доступу для трьох типів користувачів: Гість, Митець (Artist) та Адміністратор (Admin).
+* **Система заявок (CMS):** Особистий кабінет для митців для завантаження своїх робіт та панель адміністратора для їх модерації і розміщення в просторі.
+* **Мультиплеєр:** Візуалізація присутності інших відвідувачів на виставці у реальному часі (у вигляді "світлячків").
+* **Багатомовність (i18n):** Повна підтримка української та англійської мов з можливістю перемикання "на льоту".
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Стек технологій
+**Клієнтська частина (Frontend & 3D):**
+* [React 18](https://reactjs.org/) - UI-бібліотека.
+* [Three.js](https://threejs.org/) & [React Three Fiber (R3F)](https://docs.pmnd.rs/react-three-fiber/) - рендеринг 3D-графіки.
+* [@react-three/drei](https://github.com/pmndrs/drei) - допоміжні компоненти для 3D (камери, світло, завантажувачі).
+* [React Router](https://reactrouter.com/) - маршрутизація (включаючи Protected Routes).
+* [i18next](https://www.i18next.com/) - інтернаціоналізація.
 
-## Expanding the ESLint configuration
+**Серверна частина (Backend/BaaS - Firebase):**
+* **Firebase Authentication:** Локальна авторизація та Google OAuth.
+* **Cloud Firestore:** Зберігання заявок, профілів користувачів та відгуків.
+* **Firebase Storage:** Хмарне сховище для оптимізованих зображень картин та аватарів.
+* **Firebase Realtime Database:** Синхронізація координат гравців для мультиплеєра.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Структура проєкту
+* /src/assets — статичні ресурси (моделі .glb, аудіо, іконки).
+
+* /src/components — перевикористовувані React-компоненти (GalleryModel, Header тощо).
+
+* /src/context — глобальні стани (AuthContext для авторизації).
+
+* /src/hooks — кастомні React-хуки (навігація, мультиплеєр).
+
+* /src/pages — основні сторінки-представлення (Home, Exhibition, Dashboard, Admin).
+
+* /src/services — модулі для взаємодії з Firebase (auth, db, storage).
+
+## Firebase Security Rules
+Проєкт використовує суворі правила безпеки. Для їх коректної роботи в консолі Firebase необхідно налаштувати відповідні правила для Firestore та Storage, які дозволяють запис лише автентифікованим користувачам, а модерацію — лише користувачам із роллю admin.
+
+## Встановлення та запуск локально
+
+Для запуску проєкту на вашому комп'ютері повинен бути встановлений [Node.js](https://nodejs.org/).
+
+1. **Клонуйте репозиторій:**
+   ```bash
+   git clone git@github.com:ВАШ_НІК/exhibitum-3d-gallery.git
+   cd exhibitum-3d-gallery
+
+2. **Встановіть залежності:**
+   ```bash
+   npm install
+
+
+3. **Налаштуйте змінні оточення:**
+Створіть файл .env у корені проєкту та додайте ваші ключі доступу до Firebase. Ви можете використати шаблон .env.example:
+
+   ```bash
+   VITE_FIREBASE_API_KEY="your_api_key_here"
+   VITE_FIREBASE_AUTH_DOMAIN="your_project_id.firebaseapp.com"
+   VITE_FIREBASE_PROJECT_ID="your_project_id"
+   VITE_FIREBASE_STORAGE_BUCKET="your_project_id.appspot.com"
+   VITE_FIREBASE_MESSAGING_SENDER_ID="your_sender_id"
+   VITE_FIREBASE_APP_ID="your_app_id"
+   VITE_FIREBASE_MEASUREMENT_ID="your_measurement_id"
+   VITE_FIREBASE_DATABASE_URL="your_rtdb_url"
+
+4. **Запустіть сервер розробки:**
+
+   ```bash
+   npm run dev
+   
+Додаток буде доступний за адресою http://localhost:5173 (або іншим портом, вказаним у консолі).
